@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>File Upload</title>
+    <link href="https://unpkg.com/picnic" rel="stylesheet">
+    <style>
+      body {
+        width: 90%;
+        margin: 0 auto;
+        max-width: 900px;
+      }
+      form {
+        position: sticky;
+        top: 0;
+      }
+      input, label, button {
+        display: block;
+        margin: .6em 0;
+        width: 100%;
+      }
+      .title {
+        margin-top: 0;
+      }
+      .avatar {
+        padding-bottom: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex four">
+      <div>
+        <form method="POST" action="/" enctype="multipart/form-data">
+          <h2>Upload</h2>
+          <input type="hidden" name="_csrf" value="{{csrf}}">
+
+          <input class="title" name="title" placeholder="Title for the image" autofocus>
+
+          <label class="dropimage avatar">
+            <input name="avatar" title="Drop image or click me" type="file">
+          </label>
+
+          <button>Upload</button>
+        </form>
+      </div>
+
+      <div class="three-fourth">
+        <h2>Image Gallery</h2>
+        <div class="flex three">
+          {{#each pictures}}
+            <div>
+              <div class="card">
+                <header>{{this.title}}</header>
+                <img src="{{this.url}}">
+                <footer>{{this.date}}</footer>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        [].forEach.call(document.querySelectorAll('.dropimage'), function(img){
+          img.onchange = function(e){
+            var inputfile = this, reader = new FileReader();
+            reader.onloadend = function(){
+              inputfile.style['background-image'] = 'url('+reader.result+')';
+            }
+            reader.readAsDataURL(e.target.files[0]);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
