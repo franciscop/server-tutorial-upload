@@ -5,26 +5,11 @@
     <title>File Upload</title>
     <link href="https://unpkg.com/picnic" rel="stylesheet">
     <style>
-      body {
-        width: 90%;
-        margin: 0 auto;
-        max-width: 900px;
-      }
-      form {
-        position: sticky;
-        top: 0;
-      }
-      input, label, button {
-        display: block;
-        margin: .6em 0;
-        width: 100%;
-      }
-      .title {
-        margin-top: 0;
-      }
-      .avatar {
-        padding-bottom: 100%;
-      }
+      body { width: 90%; margin: 0 auto; max-width: 900px; }
+      form { position: sticky; top: 0; }
+      input, label, button { display: block; margin: .6em 0; width: 100%; }
+      .title { margin-top: 0; }
+      .avatar { padding-bottom: 100%; }
     </style>
   </head>
   <body>
@@ -33,13 +18,10 @@
         <form method="POST" action="/" enctype="multipart/form-data">
           <h2>Upload</h2>
           <input type="hidden" name="_csrf" value="{{csrf}}">
-
           <input class="title" name="title" placeholder="Title for the image" autofocus>
-
           <label class="dropimage avatar">
-            <input name="avatar" title="Drop image or click me" type="file">
+            <input name="src" title="Drop image or click me" type="file">
           </label>
-
           <button>Upload</button>
         </form>
       </div>
@@ -51,8 +33,8 @@
             <div>
               <div class="card">
                 <header>{{this.title}}</header>
-                <img src="{{this.url}}">
-                <footer>{{this.date}}</footer>
+                <img src="{{this.src}}">
+                <footer>{{this.time}}</footer>
               </div>
             </div>
           {{/each}}
@@ -60,18 +42,15 @@
       </div>
     </div>
 
-
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        [].forEach.call(document.querySelectorAll('.dropimage'), function(img){
-          img.onchange = function(e){
-            var inputfile = this, reader = new FileReader();
-            reader.onloadend = function(){
-              inputfile.style['background-image'] = 'url('+reader.result+')';
-            }
-            reader.readAsDataURL(e.target.files[0]);
+      [].forEach.call(document.querySelectorAll('.dropimage'), function(img){
+        img.onchange = function(e){
+          var inputfile = this, reader = new FileReader();
+          reader.onloadend = function(){
+            inputfile.style['background-image'] = 'url('+reader.result+')';
           }
-        });
+          reader.readAsDataURL(e.target.files[0]);
+        }
       });
     </script>
   </body>

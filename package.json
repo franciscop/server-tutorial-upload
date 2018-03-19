@@ -11,6 +11,8 @@
   "license": "MIT",
   "dependencies": {
     "cloudinary": "^1.10.0",
-    "server": "^1.0.18"
+    "mongoose": "^5.0.10",
+    "server": "^1.1.0-alpha.6",
+    "time-ago": "^0.2.1"
   }
 }
