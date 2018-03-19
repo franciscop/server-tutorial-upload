@@ -15,6 +15,7 @@
   <body>
     <div class="flex four">
       <div>
+        <!-- NOTE: enctype is VERY important here! -->
         <form method="POST" action="/" enctype="multipart/form-data">
           <h2>Upload</h2>
           <input type="hidden" name="_csrf" value="{{csrf}}">

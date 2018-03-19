@@ -1,6 +1,6 @@
 const server = require('server');
-const { get, post } = server.router;
-const { render, redirect } = server.reply;
+const { get, post, error } = server.router;
+const { render, redirect, status } = server.reply;
 const uploadAll = require('./upload-all');
 const Image = require('./image');
 
@@ -10,14 +10,14 @@ const renderHome = async ctx => {
   return render('index.hbs', { pictures });
 };
 
-
-// Store the image. "avatar" comes from the <input> with the name="avatar"
+// Store the posted body, which has the same props as the DB
 const saveToDatabase = async ({ data }) => {
   await new Image(data).save();
 };
 
-
+// Launch the server, load the middleware and the two routes
 server(8000, uploadAll, [
   get('/', renderHome),
-  post('/', saveToDatabase, ctx => redirect('/'))
+  post('/', saveToDatabase, ctx => redirect('/')),
+  error(ctx => status(500).send(ctx.error.message))
 ]);
