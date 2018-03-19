@@ -15,8 +15,8 @@ const saveToDatabase = async ({ data }) => {
   await new Image(data).save();
 };
 
-// Launch the server, load the middleware and the two routes
-server(8000, uploadAll, [
+// Load the middleware, the two routes and launch the server
+server(uploadAll, [
   get('/', renderHome),
   post('/', saveToDatabase, ctx => redirect('/')),
   error(ctx => status(500).send(ctx.error.message))
